@@ -93,7 +93,7 @@ public class CORECOMMON {
             // 2. Regex Pattern for Strict Format Validation
             // Format: [1-2 Digits] / [Text] ( [Type] ) [6 Digits]
             // Group 1: State, Group 2: Township, Group 3: Type, Group 4: Number
-            String nrcRegex = "^([0-9]{1,2})/([A-Z]+)\\(([A-Z]+)\\)([0-9]{6})$";
+            String nrcRegex = "^([0-9]{1,2})/([A-Z]+)\\(([A-Z]+)\\)([0-9]{5,6})$";
             Pattern pattern = Pattern.compile(nrcRegex);
             Matcher matcher = pattern.matcher(fullNRC);
     
@@ -113,9 +113,22 @@ public class CORECOMMON {
             // Fetch list from the external config loader
             List<String> allowedTypes = NrcConfigLoader.getAllowedTypes();
         
+//            if (!allowedTypes.contains(naing)) {
+//                return "001|NRC Type [" + naing + "] is invalid!";
+//            }
 
             if (!allowedTypes.contains(naing)) {
                 return "001|NRC Type [" + naing + "] is invalid!";
+            } else {
+                if("N".equals(naing) || "M".equals(naing)){
+                    if(registerNo.length() != 5){
+                        return "001|NRC Type ["+ naing + "] must have exactly 5 digits.";
+                    }
+                } else {
+                    if(registerNo.length() != 6){
+                        return "001|NRC Type ["+ naing + "] must have exactly 6 digits.";
+                    }
+                }
             }
     
             // 5. Database Validation (State & Township existence)
@@ -154,7 +167,7 @@ public class CORECOMMON {
     }
     
     public static boolean isValid(String s) {
-        return s.matches( "\\d{6}" ); // must be 4 digits long
+        return s.matches( "\\d{5}" ); // must be 4 digits long
     }     
     
     public static String t24CheckExistingNrcWithCustId(String customerNrc){
