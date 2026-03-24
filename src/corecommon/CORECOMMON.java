@@ -120,17 +120,13 @@ public class CORECOMMON {
             if (!allowedTypes.contains(naing)) {
                 return "001|NRC Type [" + naing + "] is invalid!";
             } else {
-                if("N".equals(naing)){
-                    if(registerNo.length() != 5){
-                        return "001|NRC Type ["+ naing + "] must have exactly 5 digits.";
-                    }
-                } else if ("M".equals(naing)) {
+                if("N".equals(naing) || "M".equals(naing)){
                     if (registerNo.length() != 5 && registerNo.length() != 6) {
-                        return "001|NRC Type [" + naing + "] must be 5 or 6 digits.";
+                        return "001|NRC Type [" + naing + "] must have exactly 5 or 6 digits.";
                     }
-                } else {
+                }else {
                     if(registerNo.length() != 6){
-                        return "001|NRC Type ["+ naing + "] must have exactly 6 digits.";
+                        return "001|NRC Type [" + naing + "] must have exactly 6 digits.";
                     }
                 }
             }
